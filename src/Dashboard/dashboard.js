@@ -44,10 +44,17 @@ const Dashboard = () => {
     }
     
     return(
-        <div>
-            {renderSections()}
-            <button onClick={() => setSectionModal(true)}>Add new section</button>
-            <AddSection open={sectionModal}/>
+        <div className="outer">
+            <div>
+                {renderSections()}
+                <button onClick={() => setSectionModal(true)}>Add new section</button>
+                
+            </div>
+
+                <div clasName="modal">
+                    <AddSection open={sectionModal} setSectionModal={setSectionModal}/>
+                </div>
+
         </div>
     )
     
