@@ -4,15 +4,23 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    height: 75vh;
+    height: 100vh;
     margin: 0;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    align-items:end;
+    width: 100vw;
+    background-color: black;
   }
 
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    height: 60vh;
     
   }
 
@@ -20,7 +28,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 12vh;
+    height: 20vh;
   }
 
   .title {
@@ -28,7 +36,7 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: auto;
-    margin-top: 5%;
+    margin-top: 2%;
     font-size: 150%;
   }
 

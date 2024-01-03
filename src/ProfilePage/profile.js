@@ -2,6 +2,7 @@ import './profile.css';
 import ReactRoundedImage from "react-rounded-image"
 import MyPhoto from "../images/Manan.JPG"
 import roundedImage from './roundedImage';
+import Navbar from '../NavBar/Navbar'
 import React, {useState} from 'react';
 import axios from "axios";
 
@@ -19,6 +20,9 @@ function Profile() {
     }
     return (
     <div className='overall'>
+        {/* <div className='nav'>
+            <Navbar></Navbar>
+        </div> */}
         <div className='title'>
             Paper Explainer
         </div>

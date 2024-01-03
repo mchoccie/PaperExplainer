@@ -1,0 +1,30 @@
+.card{
+    align-items: center;
+    background: rgb(255, 255, 255);
+    border: 2px solid #ddd;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: center;
+    min-height: 200px;
+    width: 300px;
+    
+}
+
+.card-body{
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-line{
+    height: 1px;
+    background-color: black;
+    width: 100%;
+}
+
+.card-title {
+    font-size: 1.5rem; /* Adjust the font size as needed */
+    font-weight: bold; /* Make the title bold if desired */
+    color: #333; /* Set the text color */
+    margin-bottom: 10px; /* Add some space below the title */
+  }
