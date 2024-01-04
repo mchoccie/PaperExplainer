@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import './addSection.css'
 import CloseButton from 'react-bootstrap/CloseButton';
 import {card} from "react-bootstrap"
-const AddSection = ({open, setSectionModal}) => {
+const AddSection = ({open, setSectionModal, handleForm}) => {
     const [sectionName, setSectionName] = useState("")
     const [description, setDescription] = useState("")
 
@@ -13,15 +13,23 @@ const AddSection = ({open, setSectionModal}) => {
     const handleDescriptionChange = (event) => {
         setDescription(event.target.value)
     }
+
     const close = () => {
         setSectionModal(false)
+    }
+
+    const sendDataBack = (sectionName, description) => {
+        handleForm(sectionName, description)
+        setSectionModal(false)
+
+
     }
     if (open){
         return (
         <div className='modal-overlay'>
             
             <div className='modal'>
-                <button onClick={close} type="button" class="close-button" aria-label="Close">X</button>
+                <button onClick={close} type="button" className="close-button" aria-label="Close">X</button>
                 <form>
                     <label>Section Name:</label>
                     <input type="text" value={sectionName} onChange={handleSectionNameChange}/>
@@ -29,7 +37,7 @@ const AddSection = ({open, setSectionModal}) => {
                     <label>Description</label>
                     <input type="text" value={description} onChange={handleDescriptionChange}/>
 
-                    <button type="submit">Create</button>
+                    <button onClick={(e) => {e.preventDefault(); sendDataBack(sectionName, description)}} className="createRecord" type="submit">Create</button>
                 </form>
             </div>
         </div>

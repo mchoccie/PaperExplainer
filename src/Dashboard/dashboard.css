@@ -10,6 +10,14 @@
     
 }
 
+.grid-cards{
+    display:grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    gap: 40px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
 .card-body{
     width: 300px;
     align-items: center;
@@ -40,9 +48,3 @@
     align-items: center;
     justify-content: center;
   } */
-
-  .modal{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-  }

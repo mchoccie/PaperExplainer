@@ -31,7 +31,7 @@ function Profile() {
         </div>
         <div className="container">
             
-            <form action="" onClick={() => document.querySelector(".FileUploadField").click()}>
+            <form className="upload" action="" onClick={() => document.querySelector(".FileUploadField").click()}>
                 Upload file here
                 <input type="file" className="FileUploadField" hidden/>
             

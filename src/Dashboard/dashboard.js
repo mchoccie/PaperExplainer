@@ -4,7 +4,9 @@ import AddSection from '../AddSection/addSection'
 import {Card} from "react-bootstrap"
 const Dashboard = () => {
     const [sectionModal, setSectionModal] = useState(false)
-    const cardGroups = [
+    const [sectionName, setSectionName] = useState("")
+    const [description, setDescription] = useState("")
+    const [cardGroups, setCardGroups] = useState([
         {
             name: "GENAI",
             description: "Papers on generative AI"
@@ -13,14 +15,20 @@ const Dashboard = () => {
             name: "Reinforcement Learning",
             description: "Papers on Reinforcement Learning"
         }
-    ]
+    ])
+    const handleChildFormData = (sectionName, description) => {
+        setSectionName(sectionName)
+        setDescription(description)
+        setCardGroups([...cardGroups, {name: sectionName, description: description}])
+    }
+    
 
     const renderCard = (card, index) => {
         return (
-            <Card>
+            <Card key={index}>
               <Card.Body>
                 <Card.Title>{card.name}</Card.Title>
-                <hr class="card-line" />
+                <hr className="card-line" />
                 <Card.Text>
                   {card.description}
                 </Card.Text>
@@ -31,14 +39,17 @@ const Dashboard = () => {
     }
 
     const renderSections = () => {
-        if (cardGroups.length == 0){
+        if (cardGroups.length === 0){
         return (
             <h1>No cards have been created yet!</h1>
         )
         }
         else{
             return(
-            <div>{cardGroups.map(renderCard)}</div>
+            <div className="grid-cards">
+                {cardGroups.map(renderCard)}
+            </div>
+            
             )
         }
     }
@@ -47,14 +58,15 @@ const Dashboard = () => {
         <div className="outer">
             <div>
                 {renderSections()}
+                
                 <button onClick={() => setSectionModal(true)}>Add new section</button>
                 
             </div>
 
-                <div clasName="modal">
-                    <AddSection open={sectionModal} setSectionModal={setSectionModal}/>
+                <div>
+                    <AddSection handleForm = {handleChildFormData} open={sectionModal} setSectionModal={setSectionModal}/>
                 </div>
-
+            
         </div>
     )
     
