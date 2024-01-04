@@ -4,6 +4,7 @@ import AddSection from '../AddSection/addSection'
 import {Card} from "react-bootstrap"
 const Dashboard = () => {
     const [sectionModal, setSectionModal] = useState(false)
+    const [sectionFiles, setSectionFiles] = useState(false)
     const [sectionName, setSectionName] = useState("")
     const [description, setDescription] = useState("")
     const [cardGroups, setCardGroups] = useState([
@@ -25,7 +26,7 @@ const Dashboard = () => {
 
     const renderCard = (card, index) => {
         return (
-            <Card key={index}>
+            <Card className="clickable-card" onClick={() => setSectionFiles(true)} key={index}>
               <Card.Body>
                 <Card.Title>{card.name}</Card.Title>
                 <hr className="card-line" />
@@ -63,9 +64,9 @@ const Dashboard = () => {
                 
             </div>
 
-                <div>
-                    <AddSection handleForm = {handleChildFormData} open={sectionModal} setSectionModal={setSectionModal}/>
-                </div>
+            <div>
+                <AddSection handleForm = {handleChildFormData} open={sectionModal} setSectionModal={setSectionModal}/>
+            </div>
             
         </div>
     )
