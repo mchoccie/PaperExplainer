@@ -1,10 +1,12 @@
 import React, {useState} from 'react'
 import './dashboard.css'
 import AddSection from '../AddSection/addSection'
+import FileList from '../FileList/fileList'
 import {Card} from "react-bootstrap"
 const Dashboard = () => {
     const [sectionModal, setSectionModal] = useState(false)
     const [sectionFiles, setSectionFiles] = useState(false)
+    const [selectedCard, setSelectedCard] = useState('')
     const [sectionName, setSectionName] = useState("")
     const [description, setDescription] = useState("")
     const [cardGroups, setCardGroups] = useState([
@@ -22,11 +24,17 @@ const Dashboard = () => {
         setDescription(description)
         setCardGroups([...cardGroups, {name: sectionName, description: description}])
     }
+
+    const handleCardClicked = (card) => {
+        setSectionFiles(true)
+        setSelectedCard(card.name)
+
+    }
     
 
     const renderCard = (card, index) => {
         return (
-            <Card className="clickable-card" onClick={() => setSectionFiles(true)} key={index}>
+            <Card className="clickable-card" onClick={() => handleCardClicked(card)} key={index}>
               <Card.Body>
                 <Card.Title>{card.name}</Card.Title>
                 <hr className="card-line" />
@@ -61,11 +69,12 @@ const Dashboard = () => {
                 {renderSections()}
                 
                 <button onClick={() => setSectionModal(true)}>Add new section</button>
-                
+
             </div>
 
             <div>
                 <AddSection handleForm = {handleChildFormData} open={sectionModal} setSectionModal={setSectionModal}/>
+                <FileList open={sectionFiles} setSectionFiles={setSectionFiles} selectedCard={selectedCard}/>
             </div>
             
         </div>
