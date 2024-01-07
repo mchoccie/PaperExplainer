@@ -1,16 +1,72 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './fileList.css'
 import CloseButton from 'react-bootstrap/CloseButton';
 import {card} from "react-bootstrap"
 const FileList = ({open, setSectionFiles, selectedCard}) => {
 
+    //How to only use a useEffect get Request when a card is open
+    
+    useEffect(() => {fetch('http://localhost:3001/files/:selectedCard')
+        .then(response => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json(); // This returns a Promise
+        })
+        .then(data => {
+            // Handle the JSON data
+            console.log(data);
+            //setRetrievedFiles(data);
+        })
+        .catch(error => {
+            // Handle errors
+            console.error('Fetch error:', error);
+  })}, []);
+
+    
     const[selectedFile, setSelectedFile] = useState(null)
+    const[retrievedFiles, setRetrievedFiles] = useState([])
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0])
     }
 
-    const handleFileUpload = () => {
+    const mapList = (fileName, index) => {
+        return (
+            <div>
+                {fileName}
+            </div>
+        )
+    }
+
+    const renderFileList = () => {
+        return(
+            <div>
+                {retrievedFiles.map(mapList)}
+            </div>
+            
+        )
+    }
+
+    const handleFileUpload = async () => {
+        const formData = new FormData()
+        formData.append('file', selectedFile);
+        formData.append('cardName', selectedCard)
+        try {
+            const response = await fetch('http://localhost:3001/upload', {
+              method: 'POST',
+              body: formData,
+            });
+      
+            if (response.ok) {
+              console.log('File uploaded successfully.');
+            } else {
+              console.error('File upload failed.');
+            }
+          } catch (error) {
+            console.error('Error uploading file:', error);
+          }
+
 
     }
 
@@ -28,6 +84,7 @@ const FileList = ({open, setSectionFiles, selectedCard}) => {
                     <div className="uploadButton">
                         <button onClick={handleFileUpload}>Upload</button>
                     </div>
+                    {renderFileList()}
                 </div>
             </div>
 
