@@ -5,8 +5,13 @@ import {card} from "react-bootstrap"
 const FileList = ({open, setSectionFiles, selectedCard}) => {
 
     //How to only use a useEffect get Request when a card is open
+
+    const[selectedFile, setSelectedFile] = useState(null)
+    const[retrievedFiles, setRetrievedFiles] = useState([])
     
-    useEffect(() => {fetch('http://localhost:3001/files/:selectedCard')
+    useEffect(() => {
+        if(open){
+        fetch(`http://localhost:3001/files/${selectedCard}`)
         .then(response => {
             if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -16,16 +21,21 @@ const FileList = ({open, setSectionFiles, selectedCard}) => {
         .then(data => {
             // Handle the JSON data
             console.log(data);
-            //setRetrievedFiles(data);
+ 
+            setRetrievedFiles(data.map((i) => {
+                if (i != null){
+                return i.name
+                }
+            }));
+
         })
         .catch(error => {
             // Handle errors
             console.error('Fetch error:', error);
-  })}, []);
+  })}}, [open, selectedCard]);
 
     
-    const[selectedFile, setSelectedFile] = useState(null)
-    const[retrievedFiles, setRetrievedFiles] = useState([])
+    
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0])

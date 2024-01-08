@@ -71,19 +71,21 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
 app.get('/files/:selectedCard', async (req, res) => {
   try {
+    console.log("Running")
     const [files] = await bucket.getFiles();
     const specifiedCardName = req.params.selectedCard;
-    //console.log(specifiedCardName)
+    console.log(specifiedCardName)
     const fileDetails = await Promise.all(
       files.map(async (file) => {
           const [metadata] = await file.getMetadata();
           console.log(metadata.metadata.cardName)
-          if(metadata.metadata.cardName === specifiedCardName){
+          if(metadata && metadata.metadata && metadata.metadata.cardName === specifiedCardName){
           return {
               name: file.name,
-              cardName: metadata && metadata.metadata ? metadata.metadata.cardName : null,
+              cardName: metadata.metadata.cardName,
           };
         }
+        return null
       })
   );
 
