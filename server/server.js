@@ -10,6 +10,7 @@
 // Initialize Firebase
 const express = require('express');
 const app = express();
+app.use(express.json());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -31,6 +32,28 @@ const bucket = admin.storage().bucket();
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const db = admin.firestore();
+
+
+app.post('/sectionCreate', async(req, res) => {
+  const {sectionName, description} = req.body;
+  if(!sectionName || !description){
+    return res.status(400).send('No section or description provided.');
+  }
+  try {
+    // Save the section data to Firestore
+    await db.collection('sections').add({
+      sectionName,
+      description,
+    });
+
+    console.log('Section data saved to Firestore.');
+    res.send('Section data saved to Firestore.');
+  } catch (error) {
+    console.error('Error saving section data to Firestore:', error);
+    res.status(500).send('Error saving section data to Firestore.');
+  }
+})
 
 
 
@@ -69,16 +92,37 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
+app.get('/cards', async (req, res) => {
+  try {
+    // Reference to the 'sections' collection
+    const sectionsRef = db.collection('sections');
+
+    // Get all documents in the 'sections' collection
+    const snapshot = await sectionsRef.get();
+
+    // Extract section names from the documents
+    const sectionNames = snapshot.docs.map(doc => ({
+      sectionName: doc.data().sectionName,
+      description: doc.data().description
+    }));
+
+    // Send the section names as a JSON response
+    res.json(sectionNames);
+  } catch (error) {
+    console.error('Error fetching section names:', error);
+    res.status(500).send('Internal Server Error');
+  }
+
+})
+
 app.get('/files/:selectedCard', async (req, res) => {
   try {
     console.log("Running")
     const [files] = await bucket.getFiles();
     const specifiedCardName = req.params.selectedCard;
-    console.log(specifiedCardName)
     const fileDetails = await Promise.all(
       files.map(async (file) => {
           const [metadata] = await file.getMetadata();
-          console.log(metadata.metadata.cardName)
           if(metadata && metadata.metadata && metadata.metadata.cardName === specifiedCardName){
           return {
               name: file.name,

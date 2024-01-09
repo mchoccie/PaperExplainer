@@ -18,9 +18,26 @@ const AddSection = ({open, setSectionModal, handleForm}) => {
         setSectionModal(false)
     }
 
-    const sendDataBack = (sectionName, description) => {
+    const handleSectionSave = async (sectionName, description) => {
         handleForm(sectionName, description)
         setSectionModal(false)
+        try {
+            const response = await fetch('http://localhost:3001/sectionCreate', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ sectionName, description }),
+            });
+      
+            if (response.ok) {
+              console.log('Section data sent successfully.');
+            } else {
+              console.error('Section data sending failed.');
+            }
+          } catch (error) {
+            console.error('Error sending data', error);
+          }
 
 
     }
@@ -37,7 +54,7 @@ const AddSection = ({open, setSectionModal, handleForm}) => {
                     <label>Description</label>
                     <input type="text" value={description} onChange={handleDescriptionChange}/>
 
-                    <button onClick={(e) => {e.preventDefault(); sendDataBack(sectionName, description)}} className="createRecord" type="submit">Create</button>
+                    <button onClick={() => {handleSectionSave(sectionName, description)}} className="createRecord" type="submit">Create</button>
                 </form>
             </div>
         </div>
