@@ -5,6 +5,7 @@ import Profile from './ProfilePage/profile'
 import Dashboard from './Dashboard/dashboard'
 import Root from './Root/root'
 import Error from './Error/error'
+import PDFViewer from './PdfViewer/pdfViewer';
 import { Children } from 'react';
 
 const router = createBrowserRouter([
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       { path: "/dashboard", element: <Dashboard />},
     ],
   },
+  {
+    path: "/pdfview",
+    element: <PDFViewer/>
+  }
   ]);
 
 function App() {
