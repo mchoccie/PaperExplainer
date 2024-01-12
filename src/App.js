@@ -16,12 +16,11 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Profile />},
       { path: "/dashboard", element: <Dashboard />},
+      { path: "/pdfview", element: <PDFViewer/>
+      }
     ],
   },
-  {
-    path: "/pdfview",
-    element: <PDFViewer/>
-  }
+  
   ]);
 
 function App() {

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom';
 import './fileList.css'
 import CloseButton from 'react-bootstrap/CloseButton';
 import {card} from "react-bootstrap"
@@ -44,7 +45,9 @@ const FileList = ({open, setSectionFiles, selectedCard}) => {
     const mapList = (fileName, index) => {
         return (
             <div>
-                {fileName}
+                <Link to = "/pdfview">
+                    {fileName}
+                </Link>
             </div>
         )
     }
