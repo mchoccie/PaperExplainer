@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './fileList.css'
 import CloseButton from 'react-bootstrap/CloseButton';
 import {card} from "react-bootstrap"
 const FileList = ({open, setSectionFiles, selectedCard}) => {
 
     //How to only use a useEffect get Request when a card is open
-
+    const navigate = useNavigate();
     const[selectedFile, setSelectedFile] = useState(null)
+    const[selectedFileContent, setSelectedFileContent] = useState([])
     const[retrievedFiles, setRetrievedFiles] = useState([])
+    const dataToSend = {message: "Hello"}
     
     useEffect(() => {
         if(open){
@@ -29,6 +31,12 @@ const FileList = ({open, setSectionFiles, selectedCard}) => {
                 }
             }));
 
+            setSelectedFileContent(data.map((i) => {
+                if (i != null){
+                return i.fileContent
+                }
+            }));
+
         })
         .catch(error => {
             // Handle errors
@@ -36,8 +44,6 @@ const FileList = ({open, setSectionFiles, selectedCard}) => {
   })}}, [open, selectedCard]);
 
     
-    
-
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0])
     }
@@ -45,9 +51,9 @@ const FileList = ({open, setSectionFiles, selectedCard}) => {
     const mapList = (fileName, index) => {
         return (
             <div>
-                <Link to = "/pdfview">
+                <button onClick={() => navigate('/pdfview', { state: { file: selectedFileContent[index]} })}>
                     {fileName}
-                </Link>
+                </button>
             </div>
         )
     }

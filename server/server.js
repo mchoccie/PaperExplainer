@@ -115,6 +115,18 @@ app.get('/cards', async (req, res) => {
 
 })
 
+app.get('/files/:selectedCard/:fileName', async (req, res) => {
+  try{
+    const specifiedCardName = req.params.selectedCard;
+    const fileName = req.params.fileName;
+    const [file] = await bucket.file(`${specifiedCardName}/${fileName}`).download();
+    res.send(file)
+  }
+  catch{
+    console.log("Error retrieving data")
+  }
+})
+
 app.get('/files/:selectedCard', async (req, res) => {
   try {
     console.log("Running")
@@ -123,10 +135,12 @@ app.get('/files/:selectedCard', async (req, res) => {
     const fileDetails = await Promise.all(
       files.map(async (file) => {
           const [metadata] = await file.getMetadata();
+          const [fileContent] = await bucket.file(`${file.name}`).download();
           if(metadata && metadata.metadata && metadata.metadata.cardName === specifiedCardName){
           return {
               name: file.name,
               cardName: metadata.metadata.cardName,
+              fileContent: fileContent
           };
         }
         return null

@@ -1,5 +1,6 @@
 import {React, useState} from 'react';
 import { Document, Page, pdfjs } from "react-pdf";
+import { useLocation } from 'react-router-dom';
 import './pdfViewer.css';
 import samplePDF from './BERT.pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
@@ -9,6 +10,9 @@ pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.vers
 
 
 const PDFViewer = () => {
+  
+  const location = useLocation();
+  const receivedData = location.state.file;
   const [numPages, setNumPages] = useState(null);
 
   function onDocumentLoadSuccess({ numPages }) {
@@ -18,7 +22,6 @@ const PDFViewer = () => {
   const handleTextSelection = () => {
     const selection = window.getSelection();
     if (selection && selection.toString().length > 0) {
-      // Handle the selected text, e.g., highlight, save to state, or perform other actions
       console.log('Selected text:', selection.toString());
     }
   };
@@ -26,7 +29,7 @@ const PDFViewer = () => {
   return (
 
       <Document
-        file={samplePDF}
+        file={receivedData}
         // options={{ workerSrc: "/pdf.worker.js" }}
         onLoadSuccess={onDocumentLoadSuccess}
       >
@@ -36,13 +39,6 @@ const PDFViewer = () => {
       </Document>
 
   );
-
-  // return (
-
-  //   <Document file={samplePDF}>
-  //     <Page pageNumber={1} />
-  //   </Document>
-  // );
 };
 
 export default PDFViewer;
