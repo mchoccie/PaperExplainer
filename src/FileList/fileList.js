@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+
 import './fileList.css'
 import CloseButton from 'react-bootstrap/CloseButton';
 import {card} from "react-bootstrap"
@@ -11,6 +12,9 @@ const FileList = ({open, setSectionFiles, selectedCard}) => {
     const[selectedFileContent, setSelectedFileContent] = useState([])
     const[retrievedFiles, setRetrievedFiles] = useState([])
     const dataToSend = {message: "Hello"}
+    
+
+
     
     useEffect(() => {
         if(open){
