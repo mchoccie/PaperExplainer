@@ -5,6 +5,9 @@ const Navbar = () => {
     return (
     <div className='navbar'>
         <ul>
+            <li className="logo">
+                Paper Explainer
+            </li>
             <li id="dash"><NavLink to="/dashboard" style={({isActive, isPending}) => {
                 return {
                 color: isActive ? "gray" : "white",
